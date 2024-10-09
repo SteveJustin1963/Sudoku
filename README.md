@@ -9,3 +9,6 @@ Sudoku is a logic-based puzzle game played on a 9x9 grid, divided into nine 3x3 
 Some numbers are pre-filled as clues, and the challenge is to deduce the placement of the remaining numbers based on the rules. It’s a game of logic, not math, and requires reasoning to solve.
 
 ![image](https://github.com/user-attachments/assets/14f3b284-99c3-42b6-95ad-f51117e13a6a)
+![image](https://github.com/user-attachments/assets/01154bfd-7ad3-4f97-a2e5-87188debc30f)
+
+
