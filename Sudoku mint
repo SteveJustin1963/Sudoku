@@ -1,4 +1,3 @@
-```
 // Sudoku board (9x9 grid)
 [
   5 3 0 0 7 0 0 0 0
@@ -14,41 +13,39 @@
 
 // Function to print the Sudoku board
 :P
-  9(          // 9 rows
-    9(        // 9 columns
+  9(          // Loop through rows
+    9(        // Loop through columns
       b i 9 * j + ? // Get value at (i,j)
-      " .     // Print value (or space if 0)
-      j 2 % 2 = ( ` ` ) // Extra space every 3 columns
+      0 = ( ` `) /E ( . ) // Print value or space for 0
+      j 2 % 2 = ( ` `)    // Add space every 3 columns
     )
-    /N        // New line
-    i 2 % 2 = ( /N ) // Extra line every 3 rows
+    /N                  // New line after each row
+    i 2 % 2 = ( /N )    // Extra line every 3 rows
   )
 ;
 
 // Function to check if a number is valid in a given position
 :V n! j! i!
+  /T $          // Assume valid unless proven otherwise
   // Check row
-  9( b i 9 * k + ? n = ( /F $ ' ' ) ) /T $
-
+  9( b i 9 * k + ? n = ( /F ) ) $  // If match in row, fail
   // Check column
-  9( b k 9 * j + ? n = ( /F $ ' ' ) ) /T $
-
+  9( b k 9 * j + ? n = ( /F ) ) $  // If match in column, fail
   // Check 3x3 box
   3( 3(
-    b i 3 / 3 * l + 9 * j 3 / 3 * m + + ? n =
-    ( /F $ ' ' ' ' )
+    b (i 3 / 3 * l +) 9 * (j 3 / 3 * m +) + ? n =
+    ( /F )  // If match in 3x3 box, fail
   ))
-  /T
 ;
 
 // Function to find an empty cell
 :E
   81(
     b i ? 0 = (
-      i 9 / i 9 % $ /T $
+      i 9 / i 9 % /T  // Return row and column of empty cell
     )
   )
-  /F
+  /F  // Return false if no empty cell
 ;
 
 // Recursive function to solve Sudoku
@@ -73,12 +70,9 @@
 ;
 
 // Main program
-`Initial Sudoku board:`
-P
+`Initial Sudoku board:` /N P
 S ( 
-  `Solved Sudoku board:` 
-  /N P 
+  `Solved Sudoku board:` /N P 
 ) /E ( 
   `No solution exists.` 
 )
-```
