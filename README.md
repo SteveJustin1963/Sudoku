@@ -12,3 +12,61 @@ Some numbers are pre-filled as clues, and the challenge is to deduce the placeme
 ![image](https://github.com/user-attachments/assets/01154bfd-7ad3-4f97-a2e5-87188debc30f)
 
 
+# code
+
+
+1. First, let's look at the array definition `:A`:
+```forth
+:A [5 3 0 0 7 0 0 0 0 6 0 0 1 9 5 0 0 0 0 9 8 0 0 0 0 6 0 8 0 0 0 6 0 0 0 3 4 0 0 8 0 3 0 0 1 7 0 0 0 2 0 0 0 6 0 6 0 0 0 0 2 8 0 0 0 0 4 1 9 0 0 5 0 0 0 0 8 0 0 7 9] b ! ;
+```
+This creates an array of 81 numbers (9x9 grid) and stores it in variable `b`.
+
+2. The print function `:P`:
+```forth
+:P 9(9(b i 9 * j + ? 0 = (``) /E(.) j 2 % 0 = (` `)) /N i 2 % 0 = (/N)) ;
+```
+Let's break this down:
+- Outer loop `9(...)` iterates 9 times (rows), using counter `/i`
+- Inner loop `9(...)` iterates 9 times (columns), using counter `/j`
+- `b i 9 * j + ?` gets value from array:
+  - `i 9 *` multiplies row number by 9
+  - `j +` adds column number
+  - `?` gets value at that index
+- `0 = (``) /E(.)` checks if value is 0:
+  - If zero, prints empty space
+  - If non-zero, prints the number with `.`
+- `j 2 % 0 = (` `)` adds space every other column
+- `/N` adds newline
+- `i 2 % 0 = (/N)` adds extra newline every other row
+
+3. The solve function `:S`:
+```forth
+:S E(i ! j ! 9(1 + n ! n i j V(b i 9 * j + n ! S(/T)) /E(0 b i 9 * j + !)) /F) /E(/T) ;
+```
+This implements backtracking:
+- `E` finds empty cell
+- For each empty cell, tries numbers 1-9
+- `V` validates the number
+- If valid, places number and recursively continues
+- If no solution found, backtracks
+
+4. The main function `:M`:
+```forth
+:M `Initial Sudoku board:` /N P A S(`Solved Sudoku board:` /N P) /E(`No solution exists.`) ;
+```
+- Prints "Initial Sudoku board:"
+- Displays initial board using P
+- Tries to solve using S
+- If solved, prints solution
+- If unsolvable, prints error message
+
+The issue we're seeing appears to be in the print function. Let's modify it to be simpler:
+
+```forth
+:P 9(9(b i 9 * j + ? .) ` ` /N) ;
+```
+
+This will:
+- Print 9x9 grid
+- Add space between numbers
+- Add newline after each row
